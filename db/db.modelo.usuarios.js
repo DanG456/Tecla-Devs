@@ -5,7 +5,7 @@ const sequelize = require('./connection')
 //Modulo Usuarios
 const users=sequelize.define('usuarios', {
     iduser:{
-        type: type.INTEGER,
+        type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
@@ -41,7 +41,7 @@ const users=sequelize.define('usuarios', {
         allowNull: false,
     },
     foto: {
-        type: DataTypes, //Falta completar Data types
+        type: DataTypes.BLOB, //Falta completar Data types
         allowNull: true,
     },
     esEmpresa: {

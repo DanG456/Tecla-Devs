@@ -3,8 +3,8 @@ const controllerUsers = require('../app/controlador/controlador.usuario')
 const cors = require('cors')
 const rateLimit = require("express-rate-limit");
 const Joi = require('joi');
-const { loginDTO } = require('../dto/users/login.dto');
-const { altaUserDTO } = require('../dto/users/alta.dto');
+const { loginDTO } = require('../app/controlador/controlador.usuario');
+const { altaUserDTO } = require('../app/controlador/controlador.usuario');
 
 module.exports.limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -28,6 +28,15 @@ module.exports.usuarioValido = async (req,res,next)=>{
     }
 }
 
+module.exports.isAdmin = async (req,res,next) => {
+    try{
+        req.body.esAdmin = true;
+        
+    }catch (err){
+        console.log(err.message)
+        res.status(500).json({error:err.message})
+    }
+}
 module.exports.checkDatosLogin = async(req, res, next) => {
     try {
         await Joi.attempt(req.body, loginDTO, "Los datos enviados no son correctos");

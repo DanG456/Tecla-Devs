@@ -20,3 +20,17 @@ window.addEventListener('DOMContentLoaded', event => {
     });
 
 });
+
+//Barra de busqueda de Teclers
+var Buscador = $("#content-search").DataTable();
+
+$("#search").keyup(function () {
+  Buscador.search($(this).val()).draw();
+  
+  if($("#search").val() == ""){
+    $(".content-search".fadeOut(300));
+  }else{
+    $(".content-search".fadeIn(300));
+  }
+})
+
