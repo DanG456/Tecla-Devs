@@ -16,13 +16,13 @@ const Vistatecnologia = require('./app/vista/vista.tecnologias');
 const Vistaredes = require('./app/vista/vista.redes')
 //Modelos de BD
 const UsersDB = require('./db/db.modelo.usuarios');
-const TecnoDB = require('./db/db.modelo.tecnologias')
+const TecnoDB = require('./db/db.modelos.tecnologias')
 const RedDB = require('./db/db.modelo.redes')
 //Middlewares globales
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-app.use(midd)
+app.use(midd.limiter)
 
 //Iniciamos el servidor
 async function serverStart(){
