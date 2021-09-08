@@ -1,38 +1,35 @@
 //Importamos los modulos necesarios
 //Express
-const http = require("http");
-const express = require("express");
+const http = require('http');
+const express = require('express');
 const app = express();
-const sequelize = require("sequelize");
+const sequelize = require('sequelize');
 //CORS
-const cors = require("cors");
+const cors = require('cors');
 //Dotenv
-require("dotenv").config();
+require('dotenv').config();
 //Middleware
-const midd = require("./midd/midd");
+const midd = require('./midd/midd');
 //Routes
-const apiRouter = require("./app/vistas");
-const bodyParser = require("body-parser");
+const Vistausuarios = require('./app/vista/vista.usuario');
+const Vistatecnologia = require('./app/vista/vista.tecnologias');
+const Vistaredes = require('./app/vista/vista.redes')
 //Modelos de BD
-const UsersDB = require("./db/db.modelo.usuarios");
-const TecnoDB = require("./db/db.modelo.tecnologias")
+const UsersDB = require('./db/db.modelo.usuarios');
+const TecnoDB = require('./db/db.modelo.tecnologias')
+const RedDB = require('./db/db.modelo.redes')
 //Middlewares globales
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.use(function (req, res, next) {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-    res.setHeader("Access-Control-Allow-Credentials", true);
-    next();
-});
+app.use(cors());
+app.use(midd)
 
 //Iniciamos el servidor
 async function serverStart(){
     try{
         await UsersDB.sync({alter: true});
         await TecnoDB.sync({alter: true});
+        await RedDB.sync({alter: true});
         await sequelize.authenticate();
         console.log("Conexión con la base de datos establecida correctamente");
         app.listen(process.env.PORT, process.env.HOST, () => {
@@ -46,4 +43,6 @@ async function serverStart(){
 serverStart();
 
 //Implementamos las vistas
-app.use("/api", apiRouter);
+Vistausuarios(app);
+Vistatecnologia(app);
+Vistaredes(app);
